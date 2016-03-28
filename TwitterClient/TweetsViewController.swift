@@ -55,17 +55,15 @@ class TweetsViewController: UIViewController {
         }
     }
     
-    
-    
-    /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.destinationViewController is ComposerViewController {
+            let composerViewController = segue.destinationViewController as! ComposerViewController
+            composerViewController.delegate = self
+        }
     }
-    */
 
     @IBAction func onLogout(sender: UIBarButtonItem) {
         TwitterClient.sharedInstance.logout()
@@ -81,5 +79,20 @@ extension TweetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweetsTimeline.count
+    }
+}
+
+extension TweetsViewController: ComposerViewControllerDelegate {
+    func updateViewController(updateViewController: ComposerViewController, didUpdateTweet newTweet: Tweet) {
+        addNewTweet(newTweet)
+    }
+    
+    func addNewTweet(newTweet: Tweet) {
+        
+        tweetsTimeline.insert(newTweet, atIndex: 0)
+        tableView.reloadData()
+        
+        // Scroll to the top of table view
+        self.tableView.contentOffset = CGPointMake(0, 0 - self.tableView.contentInset.top)
     }
 }

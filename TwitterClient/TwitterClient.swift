@@ -79,4 +79,18 @@ class TwitterClient: BDBOAuth1SessionManager {
         NSNotificationCenter.defaultCenter().postNotificationName(User.userDidLogout, object: nil)
         
     }
+    
+    func postTweet(text: String, completion: (tweet: Tweet?, error: NSError?) -> ()) {
+        var params = [String : AnyObject]()
+        params["status"] = text
+        
+        POST("1.1/statuses/update.json", parameters: params, success: { (task: NSURLSessionDataTask, response: AnyObject?) in
+            let newTweet = Tweet(dictionary: response as! NSDictionary)
+            completion(tweet: newTweet, error: nil)
+        }) { (task:NSURLSessionDataTask?, error:NSError) in
+            print("error updating new tweet")
+            completion(tweet: nil, error: error)
+        }
+        
+    }
 }
