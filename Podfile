@@ -5,8 +5,12 @@ use_frameworks!
 
 target 'TwitterClient' do
 
-pod ‘AFNetworking’
-pod ‘BDBOAuth1Manager’
+pod 'AFNetworking'
+pod 'BDBOAuth1Manager'
+pod 'SwiftyJSON'
+pod 'MBProgressHUD', '~> 0.8'
+pod 'NSDateMinimalTimeAgo', '~> 0.1.0'
+pod 'SVPullToRefresh'
 
 end
 
